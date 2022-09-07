@@ -24,8 +24,15 @@ docker run -d --name jaeger \
   jaegertracing/all-in-one:1.37
 </pre>
 
-Source https://www.jaegertracing.io/docs/1.37/getting-started/
+(Source https://www.jaegertracing.io/docs/1.37/getting-started/)
+
+To use, point your web browser to http://localhost:16686/
 
 ## Goals
 See how application monitoring can be integrated via back-ends (Jaeger, Prometheus)
 or even generate alerts (e.g. Prometheus <-> Nagios, Prometheus <-> Checkmk).
+
+## Conclusions
+
+## Appendix A (further readings)
+[Choosing an OpenTelemetry backend - Things to keep in mind](https://signoz.io/blog/opentelemetry-backend/ "SigNoz")
