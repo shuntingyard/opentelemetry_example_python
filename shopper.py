@@ -8,14 +8,15 @@ from opentelemetry.sdk.trace.export import (
     ConsoleSpanExporter,
 )
 from opentelemetry.sdk.resources import Resource
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
 
-exporter = ConsoleSpanExporter()
-resource = Resource.create({"service.name": "shopper"})
-provider = TracerProvider(resource=resource)
-span_processor = BatchSpanProcessor(exporter)
-provider.add_span_processor(span_processor)
+provider = TracerProvider(
+    resource=Resource.create({"service.name": "shopper"}),
+    active_span_processor=BatchSpanProcessor(ConsoleSpanExporter()),
+)
 trace.set_tracer_provider(provider)
 
+RequestsInstrumentor().instrument()
 with trace.get_tracer(__name__).start_as_current_span(
     "going to the grocery store"
 ):

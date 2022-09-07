@@ -8,14 +8,16 @@ from opentelemetry.sdk.trace.export import (
     ConsoleSpanExporter,
 )
 from opentelemetry.sdk.resources import Resource
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
-exporter = ConsoleSpanExporter()
-resource = Resource.create({"service.name": "grocery_store"})
-provider = TracerProvider(resource=resource)
-span_processor = BatchSpanProcessor(exporter)
-provider.add_span_processor(span_processor)
+provider = TracerProvider(
+    resource=Resource.create({"service.name": "grocery-store"}),
+    active_span_processor=BatchSpanProcessor(ConsoleSpanExporter()),
+)
 trace.set_tracer_provider(provider)
+
 app = Flask(__name__)
+FlaskInstrumentor().instrument_app(app)
 
 
 @app.route("/")
